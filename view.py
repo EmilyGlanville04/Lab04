@@ -25,15 +25,38 @@ class View(object):
             ft.Row(spacing=30, controls=[self.__theme_switch, self.__title, ],
                    alignment=ft.MainAxisAlignment.START)
         )
+        self._ddLanguage= ft.Dropdown(width=200, value="Lingua",
+                                      options=[ft.dropdown.Option(key ="italian",text="Italian"),
+                                      ft.dropdown.Option(key ="english",text="english"),
+                                      ft.dropdown.Option(key ="spanish",text="spanish")],
+                                      on_change=self.__controller.handleLanguageSelection)
+                                    # quando succede qualcosa chiama questa funzione
+        row1 = ft.Row(controls=[self._ddLanguage], alignment=ft.MainAxisAlignment.CENTER)
 
-        # Add your stuff here
+        self._ddModality = ft.Dropdown(width=200, value="Modalità di ricerca",
+                                       options=[ft.dropdown.Option(key = "Default", text = "Default"),
+                                                ft.dropdown.Option(key = "Linear", text = "Linear"),
+                                                ft.dropdown.Option(key = "Dichotomic", text = "Dichotomic")],
+                                                on_change=self.__controller.handleModalitySelection)
+        self._txtInput = ft.TextField(label="Inserisci il testo", width=400)
+        self._ebCorrezione = ft.ElevatedButton(text="Correzione", on_click=self.__controller.handleSpellCheck)
 
-        # self.page.add([])
+        row2 = ft.Row(controls=[self._ddModality, self._txtInput, self._ebCorrezione], alignment=ft.MainAxisAlignment.SPACE_BETWEEN)
+
+        self._lvOut = ft.ListView(
+            expand=1,
+            spacing=10,
+            padding=20,
+            auto_scroll=True
+        )
+
+        self.page.add(row1, row2, self._lvOut)
 
         self.page.update()
 
     def update(self):
         self.page.update()
+
     def setController(self, controller):
         self.__controller = controller
     def theme_changed(self, e):
